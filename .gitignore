@@ -1,0 +1,9 @@
+###Répertoires à ignorer récursivement###
+bin/**
+obj/**
+build/
+doc/html/
+doc/latex/
+
+###Exceptions###
+!.gitkeep

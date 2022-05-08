@@ -1,0 +1,3 @@
+// the configured options and settings for BombermanApp
+#define BombermanApp_VERSION_MAJOR @BombermanApp_VERSION_MAJOR@
+#define BombermanApp_VERSION_MINOR @BombermanApp_VERSION_MINOR@
