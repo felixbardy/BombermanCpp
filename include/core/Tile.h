@@ -11,6 +11,11 @@ namespace BombermanCore {
         Tile();
         Tile(tile_mask mask);
         ~Tile();
+
+        tile_mask getMask() const;
+        void setType(tile_mask type);
+        void setContent(tile_mask content);
+        void setMask(tile_mask mask);
     };
     
 }
