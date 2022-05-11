@@ -19,6 +19,7 @@ namespace BombermanCore
     
     Grid::~Grid()
     {
+        delete[] m_grid;
     }
 
 }
