@@ -2,11 +2,12 @@
 #define BombermanApp_H
 
 #include "sdl/SdlApp.h"
+#include "core/Grid.h"
 
 class BombermanApp : public SdlApp
 {
 private:
-    /* data */
+    BombermanCore::Grid m_grid;
 public:
     BombermanApp(int width, int height, std::string name, int framerate);
     ~BombermanApp();

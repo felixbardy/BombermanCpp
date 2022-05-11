@@ -1,7 +1,8 @@
 #include "BombermanApp.h"
 
 BombermanApp::BombermanApp(int width, int height, std::string name, int framerate)
-: SdlApp(width, height, name, framerate)
+: SdlApp(width, height, name, framerate),
+  m_grid(20,20)
 {
 
 }
