@@ -22,4 +22,20 @@ namespace BombermanCore
         delete[] m_grid;
     }
 
+    int Grid::getWidth() const {
+        return w;
+    }
+
+    int Grid::getHeight() const {
+        return h;
+    }
+
+    const Tile* Grid::getTile(int index) const {
+        return &m_grid[index];
+    }
+
+    const Tile* Grid::getTile(int x, int y) const {
+        return getTile(y*w+x);
+    }
+
 }
