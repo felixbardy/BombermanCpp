@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root>
+    <Tile x="0"  y="0" w="20" h="20">1</Tile>
+    <Tile x="20" y="0" w="20" h="20">2</Tile>
+    <Tile x="20" y="0" w="20" h="20">4</Tile>
+</Root>
