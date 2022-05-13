@@ -4,7 +4,7 @@
 
 BombermanApp::BombermanApp(int width, int height, std::string name, int framerate)
 : SdlApp(width, height, name, framerate),
-  m_grid(20,20)
+  m_grid(17,17)
 {
 
 }

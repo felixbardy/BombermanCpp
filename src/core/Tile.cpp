@@ -37,4 +37,8 @@ namespace BombermanCore
         m_mask |= content;
     }
 
+    void Tile::setMask(tile_mask mask) {
+        m_mask = mask;
+    }
+
 } // namespace BombermanCore
