@@ -19,6 +19,14 @@ namespace BombermanCore
         return m_mask;
     }
 
+    tile_mask Tile::getType() const {
+        return m_mask & TileContent::CLEAR;
+    }
+
+    tile_mask Tile::getContent() const {
+        return m_mask & TileType::CLEAR;
+    }
+
     void Tile::setType(tile_mask type) {
         m_mask &= TileType::CLEAR;
         m_mask |= type;
