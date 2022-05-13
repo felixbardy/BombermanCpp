@@ -1,10 +1,5 @@
 #include "sdl/SdlApp.h"
 
-void setQuit(SDL_Scancode sc, SdlApp* app)
-{
-    app->exit_app();
-}
-
 void SdlApp::fullInit()
 {
     this->window = SDL_CreateWindow(
@@ -20,8 +15,6 @@ void SdlApp::fullInit()
         0
     );
 
-    callbacks[SDL_SCANCODE_ESCAPE] = setQuit;
-
     Init();
     first_tick = SDL_GetTicks();
     previous_frame = -tick_interval;
@@ -31,6 +24,16 @@ void SdlApp::fullInit()
 void SdlApp::fullUpdate()
 {
     SDL_PumpEvents();
+
+    SDL_Event e;
+
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) {
+            this->exit_app();
+            return;
+        }
+    }
+
     const Uint8* keypressed = SDL_GetKeyboardState(NULL);
 
     for( auto const& [scancode, callback] : callbacks )
