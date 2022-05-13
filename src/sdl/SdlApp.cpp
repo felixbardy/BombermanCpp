@@ -2,7 +2,7 @@
 
 void setQuit(SDL_Scancode sc, SdlApp* app)
 {
-    app->exit();
+    app->exit_app();
 }
 
 void SdlApp::fullInit()
@@ -98,7 +98,7 @@ void SdlApp::loop()
     Quit();
 }
 
-void SdlApp::exit()
+void SdlApp::exit_app()
 {
     this->quit = true;
 }

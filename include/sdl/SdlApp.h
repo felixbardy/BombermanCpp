@@ -47,6 +47,6 @@ public:
     // Lance la boucle de l'application
     void loop();
     // Commande l'arrêt de la boucle
-    void exit();
+    void exit_app();
 };
 
