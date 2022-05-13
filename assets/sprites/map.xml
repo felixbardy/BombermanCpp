@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Root>
-    <Tile x="0"  y="0" w="20" h="20">1</Tile>
-    <Tile x="20" y="0" w="20" h="20">2</Tile>
-    <Tile x="20" y="0" w="20" h="20">4</Tile>
+    <Static x="0"  y="0" w="20" h="20" mask="1"></Static>
+    <Static x="20" y="0" w="20" h="20" mask="2"></Static>
+    <Static x="40" y="0" w="20" h="20" mask="4"></Static>
 </Root>
