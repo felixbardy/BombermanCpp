@@ -8,7 +8,12 @@
  */
 namespace BombermanCore
 {
-    const int EXPLOSION_STEP_DURATION = 10;
+    // Though it is not necessary for the game to function,
+    // these two constants should be kept equal
+    const int EXPLOSION_STEP_DURATION = 5;
+    const int CRUMBLING_STEP_DURATION = 5;
+
+    const int BOMB_DEFAUT_TIMER = 5 * 60;
     
     enum Direction {
         NONE,
@@ -37,7 +42,7 @@ namespace BombermanCore
         /// Describes an unbreakable wall
         const tile_mask UNBREAKABLE  = 0x4;
         /// [DEV] Describes the slots still available
-        const tile_mask UNUSED_TYPE  = 0x8;
+        const tile_mask CRUMBLING_WALL  = 0x8;
     };
 
     /// Masks expressing the potential content of a Tile
