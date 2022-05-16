@@ -9,6 +9,7 @@ namespace BombermanCore {
         tile_mask m_mask;
         bomb_data m_bomb;
         explosion_data m_explosion;
+        int m_crumbling_timer;
     public:
         Tile();
         Tile(tile_mask mask);
@@ -28,6 +29,9 @@ namespace BombermanCore {
         void setType(tile_mask type);
         void setContent(tile_mask content);
         void setMask(tile_mask mask);
+
+        void setCrumblingTimer(int timer);
+        int  getCrumblingTimer() const;
     };
     
 }

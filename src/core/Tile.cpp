@@ -73,4 +73,12 @@ namespace BombermanCore
         m_mask = mask;
     }
 
+    void Tile::setCrumblingTimer(int timer) {
+        m_crumbling_timer = timer;
+    }
+
+    int Tile::getCrumblingTimer() const {
+        return m_crumbling_timer;
+    }
+
 } // namespace BombermanCore
