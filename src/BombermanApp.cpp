@@ -2,6 +2,21 @@
 
 #include <iostream>
 
+using namespace BombermanCore;
+
+namespace BombermanGraphics {
+
+    std::initializer_list<
+            std::pair<const TextureID,SDL_Rect>
+            > TEXTURE_ASSOCIATIONS = {
+        //    NAME   x  y   w  h
+        //   |____|  |  |   |  |
+            {EMPTY, {32,328,12,12}},
+            {BLOCK, {80,328,12,12}},
+            {WALL,  {8,328,12,12}}
+    };
+}
+
 BombermanApp::BombermanApp(int width, int height, std::string name, int framerate)
 : SdlApp(width, height, name, framerate),
   m_grid(17,17)
@@ -35,7 +50,7 @@ void BombermanApp::Render() {
     for (int x = 0; x < m_grid.getWidth(); x++)
     {
         SDL_Rect dst_rect;
-        SDL_Rect src_rect = m_texture_map[m_grid.getTile(x,y)->getType()];
+        SDL_Rect src_rect = getCurrentTexture(x,y);
         dst_rect.x = x*unit_size;
         dst_rect.y = y*unit_size;
         dst_rect.w = unit_size;
@@ -57,53 +72,23 @@ void BombermanApp::Quit() {
 
 
 void BombermanApp::loadTilemap() {
-    using namespace tinyxml2;
-    using namespace BombermanCore;
-    // Initialisation du document
-    XMLDocument xml_doc;
-    // Sert à récupérer les résultats des fonctions
-    XMLError result;
-
     SDL_Surface* surface = IMG_Load("assets/sprites/tilemap.png");
     m_tilemap = SDL_CreateTextureFromSurface(renderer,surface);
 
-    result = xml_doc.LoadFile("assets/sprites/map.xml");
-    XMLCheckResult(result);
+    m_texture_map.insert(
+        BombermanGraphics::TEXTURE_ASSOCIATIONS
+    );
+}
 
-    XMLNode* root = xml_doc.FirstChild();
-    if (root == nullptr) {
-        std::cerr << "Texture map file seems empty!"
-                     " (check assets/sprites/map.xml)\n";
-        exit(XML_ERROR_FILE_READ_ERROR);
-    }
+SDL_Rect BombermanApp::getCurrentTexture(int x, int y) {
+    const Tile* tile = m_grid.getTile(x,y);
 
-    XMLElement* static_tex = root->FirstChildElement("Static");
-    
-    while (static_tex) {
-        int mask;
-        SDL_Rect rect;
+    if (tile->getMask() & TileType::BLOCK)
+        return m_texture_map[BombermanGraphics::BLOCK];
+    if (tile->getMask() & TileType::UNBREAKABLE)
+        return m_texture_map[BombermanGraphics::WALL];
+    if (tile->getMask() & TileType::CLEAR)
+        return m_texture_map[BombermanGraphics::EMPTY];
 
-        result = static_tex->QueryIntAttribute("x", &rect.x);
-        XMLCheckResult(result);
-        result = static_tex->QueryIntAttribute("y", &rect.y);
-        XMLCheckResult(result);
-        result = static_tex->QueryIntAttribute("w", &rect.w);
-        XMLCheckResult(result);
-        result = static_tex->QueryIntAttribute("h", &rect.h);
-        XMLCheckResult(result);
-        result = static_tex->QueryIntAttribute("mask", &mask);
-        XMLCheckResult(result);
-        
-        std::pair<TextureMap::const_iterator,bool> emplace_result;
-
-        emplace_result = m_texture_map.emplace(
-            (tile_mask)mask,
-            rect
-        );
-
-        if (!emplace_result.second)
-            std::cerr << "Failed to load a texture! (id: " << mask <<")\n"; 
-
-        static_tex = static_tex->NextSiblingElement("Static");
-    }
+    return m_texture_map[BombermanGraphics::MISSING_TEXTURE];
 }

@@ -6,17 +6,17 @@
 
 #include "sdl/SdlApp.h"
 #include "core/Grid.h"
-
-typedef std::map<BombermanCore::tile_mask,SDL_Rect> TextureMap;
+#include "BombermanGraphics.h"
 
 class BombermanApp : public SdlApp
 {
 private:
     BombermanCore::Grid m_grid;
-    TextureMap m_texture_map;
+    BombermanGraphics::TextureMap m_texture_map;
     SDL_Texture* m_tilemap;
 
     void loadTilemap();
+    SDL_Rect getCurrentTexture(int x, int y);
     void xmlLoadStaticTexture(tinyxml2::XMLNode* texture_info);
 
 public:
