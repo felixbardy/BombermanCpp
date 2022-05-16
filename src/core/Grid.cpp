@@ -71,11 +71,11 @@ namespace BombermanCore
         return h;
     }
 
-    const Tile* Grid::getTile(int index) const {
+    Tile* Grid::getTile(int index) {
         return &m_grid[index];
     }
 
-    const Tile* Grid::getTile(int x, int y) const {
+    Tile* Grid::getTile(int x, int y) {
         return getTile(y*w+x);
     }
 

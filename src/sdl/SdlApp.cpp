@@ -27,11 +27,9 @@ void SdlApp::fullUpdate()
 
     SDL_Event e;
 
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) {
-            this->exit_app();
-            return;
-        }
+    if (SDL_PeepEvents(&e,1,SDL_PEEKEVENT,SDL_QUIT, SDL_QUIT) > 0) {
+        this->exit_app();
+        return;
     }
 
     const Uint8* keypressed = SDL_GetKeyboardState(NULL);
@@ -73,11 +71,13 @@ SdlApp::~SdlApp()
     SDL_DestroyWindow(window);
 }
 
-Uint32 SdlApp::getFramecount() {return frameCount;}
+Uint32 SdlApp::getFramecount() const {return frameCount;}
 
-int SdlApp::getWidth() {return width;}
+int SdlApp::getWidth() const {return width;}
 
-int SdlApp::getHeight() {return height;}
+int SdlApp::getHeight() const {return height;}
+
+int SdlApp::getFramerate() const {return target_framerate;}
 
 void SdlApp::loop()
 {

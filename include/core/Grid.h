@@ -44,7 +44,7 @@ namespace BombermanCore {
          * @param index the index of the Tile
          * @return const Tile* a pointer to the Tile
          */
-        const Tile* getTile(int index) const;
+        Tile* getTile(int index);
 
         /**
          * @brief Get the Tile at given coordinates
@@ -53,6 +53,6 @@ namespace BombermanCore {
          * @param y the vertical coordinate
          * @return const Tile* a pointer to the Tile
          */
-        const Tile* getTile(int x, int y) const;
+        Tile* getTile(int x, int y);
     };
 }

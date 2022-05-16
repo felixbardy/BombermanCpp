@@ -16,6 +16,10 @@ private:
     SDL_Texture* m_tilemap;
 
     void loadTilemap();
+    void updateTerrain();
+    void handleInput();
+    void detonateBomb(int x, int y, BombermanCore::bomb_data* bomb);
+    void propagateExplosion(int x, int y, BombermanCore::Direction dir, int power);
     SDL_Rect getCurrentTexture(int x, int y);
     void xmlLoadStaticTexture(tinyxml2::XMLNode* texture_info);
 

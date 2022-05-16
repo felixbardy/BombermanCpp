@@ -27,10 +27,12 @@ public:
     SdlApp(int width, int height, std::string name, int framerate = 60);
     ~SdlApp();
 
+    int getWidth() const;
+    int getHeight() const;
+    int getFramerate() const;
+
 protected:
-    Uint32 getFramecount();
-    int getWidth();
-    int getHeight();
+    Uint32 getFramecount() const;
 
     // Méthode à surcharger appelée lors de l'initialisation
     virtual void Init() = 0;

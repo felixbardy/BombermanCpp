@@ -7,10 +7,20 @@ namespace BombermanCore {
     {
     private:
         tile_mask m_mask;
+        bomb_data m_bomb;
+        explosion_data m_explosion;
     public:
         Tile();
         Tile(tile_mask mask);
         ~Tile();
+
+        bool addBomb(bomb_data bomb);
+        bomb_data* getBomb();
+        const bomb_data* getBomb() const;
+
+        void addExplosion(explosion_data explosion);
+        explosion_data* getExplosion();
+        const explosion_data* getExplosion() const;
 
         tile_mask getType() const;
         tile_mask getContent() const;
