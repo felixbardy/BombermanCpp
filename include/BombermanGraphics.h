@@ -5,6 +5,9 @@
 
 #include <SDL2/SDL.h>
 namespace BombermanGraphics {
+
+    const int BOMB_LOOP_SPEED = 8;
+
     enum TextureID {
         // Missing texture
         MISSING_TEXTURE,
@@ -57,14 +60,15 @@ namespace BombermanGraphics {
         EXP_RIGHT_4,
 
         // Player1
-        PLAYER1_SOUTH,
-        PLAYER1_EAST,
-        PLAYER1_WEST,
-        PLAYER1_NORTH,
-        PLAYER1_WALK_SOUTH,
-        PLAYER1_WALK_EAST,
-        PLAYER1_WALK_WEST,
-        PLAYER1_WALK_NORTH,
+        PLAYER1_DOWN,
+        PLAYER1_SIDE,
+        PLAYER1_UP,
+        PLAYER1_WALK_UP_1,
+        PLAYER1_WALK_UP_2,
+        PLAYER1_WALK_SIDE_1,
+        PLAYER1_WALK_SIDE_2,
+        PLAYER1_WALK_DOWN_1,
+        PLAYER1_WALK_DOWN_2,
         PLAYER1_DEATH_1,
         PLAYER1_DEATH_2,
         PLAYER1_DEATH_3,
@@ -75,14 +79,15 @@ namespace BombermanGraphics {
         PLAYER1_DEATH_8,
 
         // Player2
-        PLAYER2_SOUTH,
-        PLAYER2_EAST,
-        PLAYER2_WEST,
-        PLAYER2_NORTH,
-        PLAYER2_WALK_SOUTH,
-        PLAYER2_WALK_EAST,
-        PLAYER2_WALK_WEST,
-        PLAYER2_WALK_NORTH,
+        PLAYER2_DOWN,
+        PLAYER2_SIDE,
+        PLAYER2_UP,
+        PLAYER2_WALK_UP_1,
+        PLAYER2_WALK_UP_2,
+        PLAYER2_WALK_SIDE_1,
+        PLAYER2_WALK_SIDE_2,
+        PLAYER2_WALK_DOWN_1,
+        PLAYER2_WALK_DOWN_2,
         PLAYER2_DEATH_1,
         PLAYER2_DEATH_2,
         PLAYER2_DEATH_3,
@@ -93,14 +98,15 @@ namespace BombermanGraphics {
         PLAYER2_DEATH_8,
 
         // Player3
-        PLAYER3_SOUTH,
-        PLAYER3_EAST,
-        PLAYER3_WEST,
-        PLAYER3_NORTH,
-        PLAYER3_WALK_SOUTH,
-        PLAYER3_WALK_EAST,
-        PLAYER3_WALK_WEST,
-        PLAYER3_WALK_NORTH,
+        PLAYER3_DOWN,
+        PLAYER3_SIDE,
+        PLAYER3_UP,
+        PLAYER3_WALK_UP_1,
+        PLAYER3_WALK_UP_2,
+        PLAYER3_WALK_SIDE_1,
+        PLAYER3_WALK_SIDE_2,
+        PLAYER3_WALK_DOWN_1,
+        PLAYER3_WALK_DOWN_2,
         PLAYER3_DEATH_1,
         PLAYER3_DEATH_2,
         PLAYER3_DEATH_3,
@@ -111,14 +117,15 @@ namespace BombermanGraphics {
         PLAYER3_DEATH_8,
 
         // Player4
-        PLAYER4_SOUTH,
-        PLAYER4_EAST,
-        PLAYER4_WEST,
-        PLAYER4_NORTH,
-        PLAYER4_WALK_SOUTH,
-        PLAYER4_WALK_EAST,
-        PLAYER4_WALK_WEST,
-        PLAYER4_WALK_NORTH,
+        PLAYER4_DOWN,
+        PLAYER4_SIDE,
+        PLAYER4_UP,
+        PLAYER4_WALK_UP_1,
+        PLAYER4_WALK_UP_2,
+        PLAYER4_WALK_SIDE_1,
+        PLAYER4_WALK_SIDE_2,
+        PLAYER4_WALK_DOWN_1,
+        PLAYER4_WALK_DOWN_2,
         PLAYER4_DEATH_1,
         PLAYER4_DEATH_2,
         PLAYER4_DEATH_3,
