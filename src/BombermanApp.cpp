@@ -278,14 +278,10 @@ void BombermanApp::propagateExplosion(int x, int y, Direction dir, int power) {
     if (tile->getMask() & TileType::EMPTY) {
       // Si il y a une bombe
       if (tile->getMask() & (TileContent::BOMB | TileContent::REMOTE)) {
-        // Faire exploser la bombe dans les 3 autres directions
+        // Récupérer les connées de la bombe
         bomb_data* bomb = tile->getBomb();
-        if (dir != NORTH) propagateExplosion(x,y,SOUTH,bomb->power);
-        if (dir != SOUTH) propagateExplosion(x,y,NORTH,bomb->power);
-        if (dir != EAST)  propagateExplosion(x,y,WEST, bomb->power);
-        if (dir != WEST)  propagateExplosion(x,y,EAST, bomb->power);
 
-        // Et placer l'explosion sur la case
+        // Placer l'explosion sur la case
         tile->setContent(TileContent::EXPLOSION);
         tile->addExplosion(
           {
@@ -293,6 +289,13 @@ void BombermanApp::propagateExplosion(int x, int y, Direction dir, int power) {
             6 * EXPLOSION_STEP_DURATION
           }
         );
+        
+        // Faire exploser la bombe dans les 3 autres directions
+        if (dir != NORTH) propagateExplosion(x,y,SOUTH,bomb->power);
+        if (dir != SOUTH) propagateExplosion(x,y,NORTH,bomb->power);
+        if (dir != EAST)  propagateExplosion(x,y,WEST, bomb->power);
+        if (dir != WEST)  propagateExplosion(x,y,EAST, bomb->power);
+
         // Arrêter la propagation
         return;
       }
