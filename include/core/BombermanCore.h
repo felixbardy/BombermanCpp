@@ -13,14 +13,16 @@ namespace BombermanCore
     const int EXPLOSION_STEP_DURATION = 5;
     const int CRUMBLING_STEP_DURATION = 5;
 
-    const int BOMB_DEFAUT_TIMER = 5 * 60;
+    const int MAX_PLAYERS = 4;
+
+    const int BOMB_DEFAUT_TIMER = 2.5 * 60;
     
     enum Direction {
         NONE,
-        SOUTH,
-        EAST,
-        NORTH,
-        WEST,
+        DOWN,
+        RIGHT,
+        UP,
+        LEFT,
         HORIZONTAL,
         VERTICAL
     };
@@ -84,3 +86,5 @@ namespace BombermanCore
     
 
 } // namespace BombermanCore
+
+namespace BC = BombermanCore;
