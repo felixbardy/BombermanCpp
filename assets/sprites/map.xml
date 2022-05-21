@@ -1,0 +1,5 @@
+<Root>
+    <Static x="32"  y="328" w="12" h="12" mask="1"></Static>
+    <Static x="80" y="328" w="12" h="12" mask="2"></Static>
+    <Static x="8" y="328" w="12" h="12" mask="4"></Static>
+</Root>

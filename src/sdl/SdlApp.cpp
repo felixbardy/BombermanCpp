@@ -1,10 +1,5 @@
 #include "sdl/SdlApp.h"
 
-void setQuit(SDL_Scancode sc, SdlApp* app)
-{
-    app->exit();
-}
-
 void SdlApp::fullInit()
 {
     this->window = SDL_CreateWindow(
@@ -20,8 +15,6 @@ void SdlApp::fullInit()
         0
     );
 
-    callbacks[SDL_SCANCODE_ESCAPE] = setQuit;
-
     Init();
     first_tick = SDL_GetTicks();
     previous_frame = -tick_interval;
@@ -31,6 +24,14 @@ void SdlApp::fullInit()
 void SdlApp::fullUpdate()
 {
     SDL_PumpEvents();
+
+    SDL_Event e;
+
+    if (SDL_PeepEvents(&e,1,SDL_PEEKEVENT,SDL_QUIT, SDL_QUIT) > 0) {
+        this->exit_app();
+        return;
+    }
+
     const Uint8* keypressed = SDL_GetKeyboardState(NULL);
 
     for( auto const& [scancode, callback] : callbacks )
@@ -70,11 +71,13 @@ SdlApp::~SdlApp()
     SDL_DestroyWindow(window);
 }
 
-Uint32 SdlApp::getFramecount() {return frameCount;}
+Uint32 SdlApp::getFramecount() const {return frameCount;}
 
-int SdlApp::getWidth() {return width;}
+int SdlApp::getWidth() const {return width;}
 
-int SdlApp::getHeight() {return height;}
+int SdlApp::getHeight() const {return height;}
+
+int SdlApp::getFramerate() const {return target_framerate;}
 
 void SdlApp::loop()
 {
@@ -98,7 +101,7 @@ void SdlApp::loop()
     Quit();
 }
 
-void SdlApp::exit()
+void SdlApp::exit_app()
 {
     this->quit = true;
 }

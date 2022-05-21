@@ -1,20 +1,37 @@
 #ifndef BombermanApp_H
 #define BombermanApp_H
 
+#include <map>
+#include "extern/tinyxml2.h"
+
 #include "sdl/SdlApp.h"
+#include "core/Grid.h"
+#include "BombermanGraphics.h"
 
 class BombermanApp : public SdlApp
 {
 private:
-    /* data */
+    BombermanCore::Grid m_grid;
+    BombermanGraphics::TextureMap m_texture_map;
+    SDL_Texture* m_tilemap;
+
+    void loadTilemap();
+    void updateTerrain();
+    void handleInput();
+    void detonateBomb(int x, int y, BombermanCore::bomb_data* bomb);
+    void propagateExplosion(int x, int y, BombermanCore::Direction dir, int power);
+    SDL_Rect getCurrentTexture(int x, int y);
+    void xmlLoadStaticTexture(tinyxml2::XMLNode* texture_info);
+
 public:
     BombermanApp(int width, int height, std::string name, int framerate);
     ~BombermanApp();
 
-    void Init();
-    void Update();
-    void Render();
-    void Quit();
+    void Init() override;
+    void Update() override;
+    void Render() override;
+    void Quit() override;
+
 };
 
 

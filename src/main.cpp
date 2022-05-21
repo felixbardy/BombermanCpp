@@ -19,7 +19,10 @@ int main()
     }
 
     std::stringstream title;
-    title << "BombermanApp " << BombermanApp_VERSION_MAJOR << "." << BombermanApp_VERSION_MINOR;
+    title << "BombermanApp " 
+          << BombermanApp_VERSION_MAJOR
+          << "."
+          << BombermanApp_VERSION_MINOR;
 
     BombermanApp app(600, 600, title.str(), 60);
     app.loop();
