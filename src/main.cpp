@@ -24,7 +24,7 @@ int main()
           << "."
           << BombermanApp_VERSION_MINOR;
 
-    BombermanApp app(600, 600, title.str(), 60);
+    BombermanApp app(600, 600, title.str(), 60, 2, 17, 17);
     app.loop();
 
     // À la sortie du programme:

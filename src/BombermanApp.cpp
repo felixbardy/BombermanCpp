@@ -60,55 +60,75 @@ namespace BombermanGraphics
 
           {PLAYER1_DOWN,        {8,   13,  16, 19}},         
           {PLAYER1_WALK_DOWN_1, {32,  13,  16, 19}},          
-          {PLAYER1_WALK_DOWN_2, {56,  13,  14, 19}},        
+          {PLAYER1_WALK_DOWN_2, {56,  13,  16, 19}},        
           {PLAYER1_UP,          {80,  13,  16, 19}},      
           {PLAYER1_WALK_UP_1,   {104, 13,  16, 19}},          
-          {PLAYER1_WALK_UP_2,   {128, 13,  14, 19}},
+          {PLAYER1_WALK_UP_2,   {128, 13,  16, 19}},
           {PLAYER1_SIDE,        {152, 13,  16, 19}},
           {PLAYER1_WALK_SIDE_1, {176, 13,  16, 19}},          
-          {PLAYER1_WALK_SIDE_2, {200, 13,  14, 19}},
+          {PLAYER1_WALK_SIDE_2, {200, 13,  16, 19}},
 
-          {PLAYER2_DOWN,        {8,   88,  16, 19}},         
-          {PLAYER2_WALK_DOWN_1, {32,  88,  16, 19}},          
-          {PLAYER2_WALK_DOWN_2, {56,  88,  14, 19}},        
-          {PLAYER2_UP,          {80,  88,  16, 19}},      
-          {PLAYER2_WALK_UP_1,   {104, 88,  16, 19}},          
-          {PLAYER2_WALK_UP_2,   {128, 88,  14, 19}},
-          {PLAYER2_SIDE,        {152, 88,  16, 19}},
-          {PLAYER2_WALK_SIDE_1, {176, 88,  16, 19}},          
-          {PLAYER2_WALK_SIDE_2, {200, 88,  14, 19}},
+          {PLAYER2_DOWN,        {8,   77,  16, 19}},         
+          {PLAYER2_WALK_DOWN_1, {32,  77,  16, 19}},          
+          {PLAYER2_WALK_DOWN_2, {56,  77,  16, 19}},        
+          {PLAYER2_UP,          {80,  77,  16, 19}},      
+          {PLAYER2_WALK_UP_1,   {104, 77,  16, 19}},          
+          {PLAYER2_WALK_UP_2,   {128, 77,  16, 19}},
+          {PLAYER2_SIDE,        {152, 77,  16, 19}},
+          {PLAYER2_WALK_SIDE_1, {176, 77,  16, 19}},          
+          {PLAYER2_WALK_SIDE_2, {200, 77,  16, 19}},
 
           {PLAYER3_DOWN,        {8,   173,  16, 19}},         
           {PLAYER3_WALK_DOWN_1, {32,  173,  16, 19}},          
-          {PLAYER3_WALK_DOWN_2, {56,  173,  14, 19}},        
+          {PLAYER3_WALK_DOWN_2, {56,  173,  16, 19}},        
           {PLAYER3_UP,          {80,  173,  16, 19}},      
           {PLAYER3_WALK_UP_1,   {104, 173,  16, 19}},          
-          {PLAYER3_WALK_UP_2,   {128, 173,  14, 19}},
+          {PLAYER3_WALK_UP_2,   {128, 173,  16, 19}},
           {PLAYER3_SIDE,        {152, 173,  16, 19}},
           {PLAYER3_WALK_SIDE_1, {176, 173,  16, 19}},          
-          {PLAYER3_WALK_SIDE_2, {200, 173,  14, 19}},
+          {PLAYER3_WALK_SIDE_2, {200, 173,  16, 19}},
 
           {PLAYER4_DOWN,        {8,   237,  16, 19}},         
           {PLAYER4_WALK_DOWN_1, {32,  237,  16, 19}},          
-          {PLAYER4_WALK_DOWN_2, {56,  237,  14, 19}},        
+          {PLAYER4_WALK_DOWN_2, {56,  237,  16, 19}},        
           {PLAYER4_UP,          {80,  237,  16, 19}},      
           {PLAYER4_WALK_UP_1,   {104, 237,  16, 19}},          
-          {PLAYER4_WALK_UP_2,   {128, 237,  14, 19}},
+          {PLAYER4_WALK_UP_2,   {128, 237,  16, 19}},
           {PLAYER4_SIDE,        {152, 237,  16, 19}},
           {PLAYER4_WALK_SIDE_1, {176, 237,  16, 19}},          
-          {PLAYER4_WALK_SIDE_2, {200, 237,  14, 19}},
+          {PLAYER4_WALK_SIDE_2, {200, 237,  16, 19}},
 
       };
 }
 
-BombermanApp::BombermanApp(int width, int height, std::string name, int framerate)
+BombermanApp::BombermanApp(int width, int height, std::string name, int framerate, int n_players, int grid_w, int grid_h)
     : SdlApp(width, height, name, framerate),
-      m_grid(17, 17)
+      m_grid(grid_w, grid_h),
+      m_n_players(n_players)
 {
+  const int players_pos[] = {
+    grid_w+1, // top left
+    2*grid_w-2, // top right
+    grid_h*grid_w - grid_w - 2, // bottom right
+    grid_h*grid_w - 2*grid_w + 1 // bottom left
+  };
+
+  m_players = new BG::DrawablePlayer[n_players];
+
+  for (int i = 0; i < n_players; i++) {
+    m_players[i] = BG::DrawablePlayer(
+      players_pos[i] % grid_w,
+      players_pos[i] / grid_w
+    );
+    m_players[i].setKeyMap(BG::players_default_map[i]);
+    m_players[i].setTextureMap(BG::players_texture_map[i]);
+  }
+
 }
 
 BombermanApp::~BombermanApp()
 {
+  SDL_DestroyTexture(m_tilemap);
 }
 
 void BombermanApp::Init()
@@ -129,6 +149,8 @@ void BombermanApp::Update()
 
   // 2• Gestion de l'input / actions / réactions
   handleInput();
+
+
 }
 
 void BombermanApp::Render()
@@ -140,6 +162,7 @@ void BombermanApp::Render()
       this->getWidth() / m_grid.getWidth(),
       this->getHeight() / m_grid.getHeight());
 
+  // Affichage du terrain
   for (int y = 0; y < m_grid.getHeight(); y++)
     for (int x = 0; x < m_grid.getWidth(); x++)
     {
@@ -156,6 +179,54 @@ void BombermanApp::Render()
           &dst_rect
       );
     }
+
+  //*******************/
+  //* Drawing players */
+  //*******************/
+  
+  // Horizontal texture offset due to player oversizing
+  int player_hor_offset = unit_size * (BG::PLAYER_OVERSIZE / 2.0);
+  // Width of the rendered player
+  int player_width  = unit_size * (1.0 + BG::PLAYER_OVERSIZE);
+  // Height of the rendered player
+  int player_height = 19.0 * ((float)player_width / 16.0);
+
+  // Draw each player
+  for (int i = 0; i < m_n_players; i++) {
+    // Get a pointer to the player
+    BG::DrawablePlayer* player = &m_players[i];
+    // Get the player's position
+    float x,y;
+    player->getPos(&x, &y);
+    // Generate the destination rectangle
+    SDL_Rect dst_rect = {
+      // x minus the horizontal offset
+      x * unit_size - player_hor_offset,
+      // y shifted so that the base of the player
+      // is at the corresponding coordinates
+      y * unit_size - (player_height - (unit_size / 1.5)),
+      player_width, // width
+      player_height // height
+    };
+    // Getting the source rectangle from the texture map
+    SDL_Rect src_rect = m_texture_map[player->getTexture(getFramecount())];
+
+    // Flip the texture if player is headed to the left
+    SDL_RendererFlip flip = 
+      (player->getDir() == Direction::LEFT) 
+      ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+
+    // Render the player
+    SDL_RenderCopyEx(
+      this->renderer,
+      m_tilemap,
+      &src_rect, &dst_rect,
+      0, NULL,
+      flip
+    );
+    
+    player->clearActions();
+  }
 
   SDL_RenderPresent(renderer);
 }
@@ -218,6 +289,58 @@ void BombermanApp::handleInput()
   int unit_size = getWidth() / m_grid.getWidth();
   int mx,my,tx,ty;
   SDL_GetMouseState(&mx,&my);
+  const Uint8* kb_state = SDL_GetKeyboardState(NULL);
+
+  // Gestion de l'input des joueurs
+  for (int i = 0; i < m_n_players; i++) {
+    m_players[i].handleInput(kb_state);
+    m_players[i].simplifyActions();
+  }
+
+  // Action des joueurs
+  for (int i = 0; i < m_n_players; i++) {
+    // Get the player
+    BG::DrawablePlayer *player = &m_players[i];
+    if (!player->isDead()) {
+      // Get the player's actions
+      BC::ActionMask actions = player->getActions();
+      // Get the player's position
+      float player_x,player_y;
+      int tile_x, tile_y;
+      player->getPos(&player_x, &player_y);
+      tile_x = (int)(player_x + 0.5);
+      tile_y = (int)(player_y + 0.5);
+      // If the player is acting, put a bomb on the current tile
+      if (actions & ActionMasks::ACTION) {
+        // If there is not already a bomb there
+        if (!(m_grid.getTile(tile_x, tile_y)->getContent() & TileContent::BOMB))
+          // Add a bomb following the player's stats
+          // TODO Account for the remote bonus
+          m_grid.getTile(tile_x,tile_y)->addBomb(
+            {false,BOMB_DEFAUT_TIMER,player->getPower()}
+          );
+      }
+      if (actions & ActionMasks::GO_DOWN) {
+        //TODO Check if possible
+        player->move(DOWN);
+      }
+      if (actions & ActionMasks::GO_UP) {
+        //TODO Check if possible
+        player->move(UP);
+      }
+      if (actions & ActionMasks::GO_LEFT) {
+        //TODO Check if possible
+        player->move(LEFT);
+      }
+      if (actions & ActionMasks::GO_RIGHT) {
+        //TODO Check if possible
+        player->move(RIGHT);
+      }
+      if (actions & ActionMasks::PAUSE) {
+        //TODO Pause
+      }
+    } // END IF isDead()
+  }
 
   SDL_Event e;
   while(SDL_PollEvent(&e)) {
@@ -242,32 +365,29 @@ void BombermanApp::detonateBomb(int x, int y, bomb_data *bomb)
           6*EXPLOSION_STEP_DURATION // Timer de 7 étapes
       }
   );
-  propagateExplosion(x,y,Direction::EAST, bomb->power);
-  propagateExplosion(x,y,Direction::WEST, bomb->power);
-  propagateExplosion(x,y,Direction::SOUTH, bomb->power);
-  propagateExplosion(x,y,Direction::NORTH, bomb->power);
+  propagateExplosion(x,y,Direction::RIGHT, bomb->power);
+  propagateExplosion(x,y,Direction::LEFT, bomb->power);
+  propagateExplosion(x,y,Direction::DOWN, bomb->power);
+  propagateExplosion(x,y,Direction::UP, bomb->power);
 }
 
 void BombermanApp::propagateExplosion(int x, int y, Direction dir, int power) {
-  //TODO Implement this function
-  //FIXME Penser à une implémentation non-récursive
-  
   if (power == 0) return;
 
   Tile* tile = nullptr;
 
   while(power > 0) {
     switch(dir) {
-      case NORTH:
+      case UP:
         tile = m_grid.getTile(x,--y);
         break;
-      case SOUTH:
+      case DOWN:
         tile = m_grid.getTile(x,++y);
         break;
-      case WEST:
+      case LEFT:
         tile = m_grid.getTile(--x,y);
         break;
-      case EAST:
+      case RIGHT:
         tile = m_grid.getTile(++x,y);
         break;
       default:
@@ -291,10 +411,10 @@ void BombermanApp::propagateExplosion(int x, int y, Direction dir, int power) {
         );
         
         // Faire exploser la bombe dans les 3 autres directions
-        if (dir != NORTH) propagateExplosion(x,y,SOUTH,bomb->power);
-        if (dir != SOUTH) propagateExplosion(x,y,NORTH,bomb->power);
-        if (dir != EAST)  propagateExplosion(x,y,WEST, bomb->power);
-        if (dir != WEST)  propagateExplosion(x,y,EAST, bomb->power);
+        if (dir != UP) propagateExplosion(x,y,DOWN,bomb->power);
+        if (dir != DOWN) propagateExplosion(x,y,UP,bomb->power);
+        if (dir != RIGHT)  propagateExplosion(x,y,LEFT, bomb->power);
+        if (dir != LEFT)  propagateExplosion(x,y,RIGHT, bomb->power);
 
         // Arrêter la propagation
         return;
@@ -320,7 +440,7 @@ void BombermanApp::propagateExplosion(int x, int y, Direction dir, int power) {
       if (power == 1) exp_dir = dir;
       else if (dir == NONE) exp_dir = NONE;
       else {
-        if (dir == NORTH || dir == SOUTH) exp_dir = VERTICAL;
+        if (dir == UP || dir == DOWN) exp_dir = VERTICAL;
         else  exp_dir = HORIZONTAL;
       }
       
@@ -388,13 +508,13 @@ SDL_Rect BombermanApp::getCurrentTexture(int x, int y)
         return m_texture_map[BG::EXP_HORIZONTAL_4];
       case VERTICAL:
         return m_texture_map[BG::EXP_VERTICAL_4];
-      case SOUTH:
+      case DOWN:
         return m_texture_map[BG::EXP_DOWN_4];
-      case NORTH:
+      case UP:
         return m_texture_map[BG::EXP_UP_4];
-      case EAST:
+      case RIGHT:
         return m_texture_map[BG::EXP_RIGHT_4];
-      case WEST:
+      case LEFT:
         return m_texture_map[BG::EXP_LEFT_4];
       }
     case 1:
@@ -406,13 +526,13 @@ SDL_Rect BombermanApp::getCurrentTexture(int x, int y)
         return m_texture_map[BG::EXP_HORIZONTAL_3];
       case VERTICAL:
         return m_texture_map[BG::EXP_VERTICAL_3];
-      case SOUTH:
+      case DOWN:
         return m_texture_map[BG::EXP_DOWN_3];
-      case NORTH:
+      case UP:
         return m_texture_map[BG::EXP_UP_3];
-      case EAST:
+      case RIGHT:
         return m_texture_map[BG::EXP_RIGHT_3];
-      case WEST:
+      case LEFT:
         return m_texture_map[BG::EXP_LEFT_3];
       }
     case 2:
@@ -424,13 +544,13 @@ SDL_Rect BombermanApp::getCurrentTexture(int x, int y)
         return m_texture_map[BG::EXP_HORIZONTAL_2];
       case VERTICAL:
         return m_texture_map[BG::EXP_VERTICAL_2];
-      case SOUTH:
+      case DOWN:
         return m_texture_map[BG::EXP_DOWN_2];
-      case NORTH:
+      case UP:
         return m_texture_map[BG::EXP_UP_2];
-      case EAST:
+      case RIGHT:
         return m_texture_map[BG::EXP_RIGHT_2];
-      case WEST:
+      case LEFT:
         return m_texture_map[BG::EXP_LEFT_2];
       }
     case 3:
@@ -442,13 +562,13 @@ SDL_Rect BombermanApp::getCurrentTexture(int x, int y)
         return m_texture_map[BG::EXP_HORIZONTAL_1];
       case VERTICAL:
         return m_texture_map[BG::EXP_VERTICAL_1];
-      case SOUTH:
+      case DOWN:
         return m_texture_map[BG::EXP_DOWN_1];
-      case NORTH:
+      case UP:
         return m_texture_map[BG::EXP_UP_1];
-      case EAST:
+      case RIGHT:
         return m_texture_map[BG::EXP_RIGHT_1];
-      case WEST:
+      case LEFT:
         return m_texture_map[BG::EXP_LEFT_1];
       }
     default:
