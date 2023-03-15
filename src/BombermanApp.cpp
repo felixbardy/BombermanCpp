@@ -198,13 +198,17 @@ void BombermanApp::Render()
     // Get the player's position
     float x,y;
     player->getPos(&x, &y);
+
     // Generate the destination rectangle
+    // x minus the horizontal offset
+    int rect_x = (int)(x * unit_size - player_hor_offset);
+    // y shifted so that the base of the player
+    // is at the corresponding coordinates
+    int rect_y = (int)(y * unit_size - (player_height - (unit_size / 1.5)));
+
     SDL_Rect dst_rect = {
-      // x minus the horizontal offset
-      x * unit_size - player_hor_offset,
-      // y shifted so that the base of the player
-      // is at the corresponding coordinates
-      y * unit_size - (player_height - (unit_size / 1.5)),
+      rect_x,
+      rect_y,
       player_width, // width
       player_height // height
     };
