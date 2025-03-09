@@ -1,3 +1,3 @@
 # BombermanCpp
 
-Ce code est un toy-project qui m'a servi d'excuse pour mettre en place une configuration CMake un peu avancée incluant la compilation et les tests.
+Une reproduction de Bomberman93 en C++ avec SDL
